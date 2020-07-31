@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"fmt"
 	"path"
+	"log"
 
 	"github.com/spf13/cobra"
 )
@@ -48,10 +48,10 @@ func mongoStore(cmd *cobra.Command, args []string) {
 	reader := ConnectToDB(configMongoDB)
 
 	// Fetch all backup files from MongoDB instance and simultaneously store them into desired Storj bucket.
-	fmt.Printf("\nInitiating back-up.\n")
+	log.Printf("\nInitiating back-up.\n")
 	uploadFileName := path.Join(configMongoDB.Database, configMongoDB.Database+".bson")
 	UploadData(project, storjConfig, uploadFileName, reader)
-	fmt.Printf("\nBack-up complete.\n\n")
+	log.Printf("\nBack-up complete.\n\n")
 
 	// Create restricted shareable serialized access if share is provided as argument.
 	if useAccessShare {
