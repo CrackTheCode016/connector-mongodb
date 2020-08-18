@@ -19,8 +19,6 @@ import (
 type ConfigMongoDB struct {
 	Hostname   string `json:"hostname"`
 	Portnumber string `json:"port"`
-	Username   string `json:"username"`
-	Password   string `json:"password"`
 	Database   string `json:"database"`
 }
 
@@ -37,7 +35,6 @@ var currentCollection string
 // It returns number of bytes (int) read and any error, if occurred.
 // EOF error is returned after complete read.
 func (mongoReader *MongoReader) Read(buf []byte) (int, error) {
-
 	var err error
 	ctx := context.TODO()
 
@@ -146,8 +143,6 @@ func LoadMongoProperty(fullFileName string) ConfigMongoDB {
 	fmt.Println("\nRead MongoDB configuration from the ", fullFileName, " file")
 	fmt.Println("Hostname\t", configMongoDB.Hostname)
 	fmt.Println("Portnumber\t", configMongoDB.Portnumber)
-	fmt.Println("Username \t", configMongoDB.Username)
-	fmt.Println("Password \t", configMongoDB.Password)
 	fmt.Println("Database \t", configMongoDB.Database)
 
 	return configMongoDB
@@ -158,8 +153,7 @@ func LoadMongoProperty(fullFileName string) ConfigMongoDB {
 func ConnectToDB(configMongoDB ConfigMongoDB) *MongoReader {
 
 	fmt.Println("Connecting to MongoDB...")
-	ctx := context.TODO()
-	mongoURL := fmt.Sprintf("mongodb://%s:%s@%s:%s/%s?authSource="+configMongoDB.Database, configMongoDB.Username, configMongoDB.Password, configMongoDB.Hostname, configMongoDB.Portnumber, configMongoDB.Database)
+	mongoURL := fmt.Sprintf("mongodb://%s:%s/%s", configMongoDB.Hostname, configMongoDB.Portnumber, configMongoDB.Database)
 	clientOptions := options.Client().ApplyURI(mongoURL)
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {
