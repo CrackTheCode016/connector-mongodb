@@ -151,7 +151,7 @@ func LoadMongoProperty(fullFileName string) ConfigMongoDB {
 // ConnectToDB will connect to a MongoDB instance based on the specified credentials.
 // It returns a reference to an io.Reader with MongoDB instance information
 func ConnectToDB(configMongoDB ConfigMongoDB) *MongoReader {
-
+	ctx := context.TODO()
 	fmt.Println("Connecting to MongoDB...")
 	mongoURL := fmt.Sprintf("mongodb://%s:%s/%s", configMongoDB.Hostname, configMongoDB.Portnumber, configMongoDB.Database)
 	clientOptions := options.Client().ApplyURI(mongoURL)

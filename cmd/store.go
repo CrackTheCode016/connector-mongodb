@@ -48,7 +48,7 @@ func mongoStore(cmd *cobra.Command, args []string) {
 	// Fetch all backup files from MongoDB instance and simultaneously store them into desired Storj bucket.
 	log.Printf("\nInitiating back-up.\n")
 	uploadFileName := path.Join(configMongoDB.Database, configMongoDB.Database+".bson")
-	UploadData(project, storjConfig, uploadFileName, reader)
+	UploadData(project, storjConfig, uploadFileName, reader, reader.collectionNames[0])
 	log.Printf("\nBack-up complete.\n\n")
 
 	// Create restricted shareable serialized access if share is provided as argument.
